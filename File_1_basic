@@ -1,0 +1,27 @@
+/* First query */
+
+title "Large Non-Educational Transactions";
+
+proc sql;
+select CustomerName label="Customer Name", MerchantName, Type, Service, 
+Amount label="Transaction Amount" format DOLLAR10.2
+from sq.transactionfull
+where Amount gt 1000 and Service ne "University"
+order by Amount desc;
+ quit;
+ title;
+ 
+ 
+ /* Second query */
+
+title "November/December Transactions";
+
+proc sql;
+select CustomerName label="Customer Name", MerchantName label="Merchant Name", 
+datepart(DateTime) as TransactionDate label="Transaction Date" format date9., 
+Amount label="Transaction Amount" format DOLLAR10.2
+from sq.transactionfull
+where Service ne "University" and month(calculated TransactionDate) in (11, 12)
+order by DateTime;
+ quit;
+ title;
